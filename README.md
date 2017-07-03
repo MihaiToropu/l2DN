@@ -6,60 +6,6 @@ https://www.w3schools.com/howto/howto_js_filter_table.asp
 
 
 
-
-@model IEnumerable<SummerCamp.Web.Models.Announcement>
-
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
-
-<table id="myTable">
-    <tr>
-        <th>
-            Category Name
-        </th>
-        <th>
-            Title
-        </th>
-
-        <th>
-            Closed
-        </th>
-        
-        <th>
-            Id
-        </th>
-
-
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.CategoryName
-            </td>
-
-            <td>
-                @item.Title
-            </td>
-            <td>
-                @item.Closed
-            </td>
-            
-            <td>
-                @item.Id
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
-
     <head>
         <style>
             * {
@@ -98,7 +44,6 @@ https://www.w3schools.com/howto/howto_js_filter_table.asp
                     }
         </style>
     </head>
-    <body>
 
         <h2>My Customers</h2>
 
@@ -125,7 +70,3 @@ https://www.w3schools.com/howto/howto_js_filter_table.asp
                 }
             }
         </script>
-
-    </body>
-
-</table>
