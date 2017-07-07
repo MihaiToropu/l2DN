@@ -9,5 +9,6 @@ http://www.c-sharpcorner.com/article/crud-Asp-Net-web-api-with-entity-framework-
 
 http://www.dotnetcurry.com/aspnet/1192/aspnet-web-api-async-calls-mvc-wpf
 
-http://www.dotnetcurry.com/aspnet/1192/aspnet-web-api-async-calls-mvc-wpf
+https://stackoverflow.com/questions/26319719/how-to-show-details-view-of-selected-car
+
 
