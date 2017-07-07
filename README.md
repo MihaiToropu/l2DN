@@ -11,4 +11,6 @@ http://www.dotnetcurry.com/aspnet/1192/aspnet-web-api-async-calls-mvc-wpf
 
 https://stackoverflow.com/questions/26319719/how-to-show-details-view-of-selected-car
 
+https://my.visualstudio.com/?auth_redirect=true
+
 
