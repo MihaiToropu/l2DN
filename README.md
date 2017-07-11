@@ -17,225 +17,262 @@ https://startbootstrap.com/template-categories/all/
 
 
 
-using Newtonsoft.Json;
-using SummerCamp.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-
-namespace SummerCamp.Web.Controllers
-{
-    public class HomeController : Controller
-    {
-        private Task<HttpResponseMessage> client;
-
-
-        public string Baseurl { get; private set; }
-
-
-        //Hosted web API REST Service base url  
-
-        public async Task<ActionResult> Index()
-        {
-            List<Announcement> AnnouncementInfo = new List<Announcement>();
-            string Baseurl = "http://api.summercamp.stage02.netromsoftware.ro";
-            using (var client = new HttpClient())
-            {
-                //Passing service base url  
-                client.BaseAddress = new Uri(Baseurl);
-
-                client.DefaultRequestHeaders.Clear();
-                //Define request data format  
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                //Sending request to find web api REST service resource GetAllAnnouncements using HttpClient  
-                HttpResponseMessage Res = await client.GetAsync("api/announcements");
-
-                //Checking the response is successful or not which is sent using HttpClient  
-                if (Res.IsSuccessStatusCode)
-                {
-                    //Storing the response details recieved from web api   
-                    var AnnouncementResp = Res.Content.ReadAsStringAsync().Result;
-
-                    //Deserializing the response recieved from web api and storing into the Announcement list  
-                    AnnouncementInfo = JsonConvert.DeserializeObject<List<Announcement>>(AnnouncementResp);
-
-                }
-                //returning the Announcement list to view  
-                return View(AnnouncementInfo);
-            }
-
+<html lang="en">
+<head>
+    <style id="stndz-style">
+        div[class*="item-container-obpd"], a[data-redirect*="paid.outbrain.com"], a[onmousedown*="paid.outbrain.com"] {
+            display: none !important;
         }
 
-
-
-        public async Task<ActionResult> Details(int id)
-        {
-            AnnouncementDetails AnnouncementInfo = new AnnouncementDetails();
-            string Baseurl = "http://api.summercamp.stage02.netromsoftware.ro/";
-            using (var client = new HttpClient())
-            {
-                //Passing service base url  
-                client.BaseAddress = new Uri(Baseurl);
-
-                client.DefaultRequestHeaders.Clear();
-                //Define request data format  
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                //Sending request to find web api REST service resource GetAllAnnouncements using HttpClient  
-                HttpResponseMessage Res = await client.GetAsync("api/announcements/" + id);
-
-                if (Res.IsSuccessStatusCode)
-                {
-                    //Storing the response details recieved from web api   
-                    var AnnouncementResp = Res.Content.ReadAsStringAsync().Result;
-
-                    //Deserializing the response recieved from web api and storing into the Announcement list  
-                    AnnouncementInfo = JsonConvert.DeserializeObject<AnnouncementDetails>(AnnouncementResp);
-
-                }
-
-                //AnnouncementInfo.Id = id;
-                //AnnouncementInfo.Title = Title;
-                //AnnouncementInfo.Description = Description;
-                //returning the Announcement list to view  
-                return View(AnnouncementInfo);
-            }
-
+        a div[class*="item-container-ad"] {
+            height: 0px !important;
+            overflow: hidden !important;
+            position: absolute !important;
         }
 
-
-        public ActionResult Create()
-        {
-            return View();
+        div[data-item-syndicated="true"] {
+            display: none !important;
         }
 
-
-        [HttpPost]
-        public ActionResult Create(AnnouncementCreate nou)
-        {
-            string url = "http://api.summercamp.stage02.netromsoftware.ro/api/announcements/NewAnnouncement";
-            if (ModelState.IsValid)
-            {
-                HttpClient client = new HttpClient();
-                var result = client.PostAsJsonAsync(url, nou).Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    nou = result.Content.ReadAsAsync<AnnouncementCreate>().Result;
-                    ViewBag.Result = "Succesfully saved!";
-                    ModelState.Clear();
-
-                    return View(new AnnouncementCreate());
-                }
-                else
-                {
-                    ViewBag.Result = "Error!Please try again with valid data";
-                }
-            }
-            return View(nou);
+        .grv_is_sponsored {
+            display: none !important;
         }
 
-        public ActionResult Close(int id)
-        {
-            return View();
+        .zergnet-widget-related {
+            display: none !important;
         }
+    </style>
 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        [HttpPost]
-        public ActionResult Close(int id,AnnouncementClose nou)
-        {
-            string url = "http://api.summercamp.stage02.netromsoftware.ro/api/announcements/CloseAnnouncement?announcementId="+id;
-            if (ModelState.IsValid)
-            {
-                HttpClient client = new HttpClient();
-                var result = client.PostAsJsonAsync(url, nou).Result;       
-            }
-            return RedirectToAction("Index");
-        }
+    <title>Shop Homepage </title>
 
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Custom CSS -->
+    <link href="css/shop-homepage.css" rel="stylesheet">
 
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
+</head>
 
+<body>
 
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">HOME</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">Post Announcement</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
+    <!-- Page Content -->
+    <div class="container">
 
+        <div class="row">
 
-        //public async Task<ActionResult> Edit(int id)
-        //{
-        //    HttpResponseMessage responseMessage = await client.GetAsync(url + "/" + id);
-        //    if (responseMessage.IsSuccessStatusCode)
-        //    {
-        //        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+            <div class="col-md-3">
+              
+                <div class="list-group">
+                    <a href="" class="list-group-item">Auto</a>
+                    <a href="#" class="list-group-item">Imobiliare</a>
+                    <a href="#" class="list-group-item">Electronice</a>
+                    <a href="#" class="list-group-item">Arta</a>
+                </div>
+            </div>
 
-        //        var Employee = JsonConvert.DeserializeObject<EmployeeInfo>(responseData);
+            <div class="col-md-9">
 
-        //        return View(Employee);
-        //    }
-        //    return View("Error");
-        //}
+                <div class="row carousel-holder">
 
-        ////The PUT Method
-        //[HttpPost]
-        //public async Task<ActionResult> Edit(int id, EmployeeInfo Emp)
-        //{
+                    <div class="col-md-12">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class=""></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="2" class="active"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item">
+                                    <img class="slide-image" src="http://www.deals-n-coupons.in/blog/wp-content/uploads/2016/05/Summer-Season-Best-Shopping-and-Vacation-Offers.png" alt="">
+                                </div>
+                                <div class="item active left">
+                                    <img class="slide-image" src="https://www.agilitypr.com/wp-content/uploads/2016/04/CruiseShip.png" alt="">
+                                </div>
+                                <div class="item next left">
+                                    <img class="slide-image" src="http://earlycareerawards.ie/wp-content/uploads/2017/05/Artboard-28-1.png" alt="">
+                                </div>
+                            </div>
+                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </div>
+                    </div>
 
-        //    HttpResponseMessage responseMessage = await client.PutAsJsonAsync(url + "/" + id, Emp);
-        //    if (responseMessage.IsSuccessStatusCode)
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //    return RedirectToAction("Error");
-        //}
+                </div>
 
+                <div class="row">
+@*/////////////////////////////////////*@
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="https://static.mercedesbenzme.com/media/6409505/2017_cars_picture00489_mobile-320x150.jpg" alt="">
+                            <div class="caption">
+                                <h4>
+                                    <a href="#">Auto</a>
+                                </h4>                                
+                            </div>
+                            <div class="ratings">
+                                <p class="pull-right">15 reviews</p>
+                                <p>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+@*@////////////////////////////////////////////@*@
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="https://mediavault.point2.com/p2h/listing/93f8/1115/e550/173367301ec5fd641a81/nwm_medium.jpg" alt="">
+                            <div class="caption">
+                                <h4>
+                                    <a href="#">Imobiliare</a>
+                                </h4>                               
+                            </div>
+                            <div class="ratings">
+                                <p class="pull-right">12 reviews</p>
+                                <p>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+@*@////////////////////////////////////////////@*@
 
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="https://d2gg9evh47fn9z.cloudfront.net/thumb_COLOURBOX1498965.jpg" alt="">
+                            <div class="caption">                                
+                                <h4>
+                                    <a href="#">Electronice</a>
+                                </h4>                              
+                            </div>
+                            <div class="ratings">
+                                <p class="pull-right">31 reviews</p>
+                                <p>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+@*@////////////////////////////////////////////@*@
 
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        
+                    </div>
 
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/WLA_metmuseum_Rosa_Bonheur_The_Horse_Fair.jpg/320px-WLA_metmuseum_Rosa_Bonheur_The_Horse_Fair.jpg" alt="">
+                            <div class="caption">
+                                <h4>
+                                    <a href="#">Arta</a>
+                                </h4>
+                            </div>
+                            <div class="ratings">
+                                <p class="pull-right">18 reviews</p>
+                                <p>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
+                    
 
-    }
-}
+                </div>
 
-VIEWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+            </div>
 
-@model SummerCamp.Web.Models.AnnouncementClose
-
-@{
-    ViewBag.Title = "Close";
-}
-
-<!DOCTYPE html>
-
-<div style="max-width:600px">
-    @using (Html.BeginForm("Close", "Home", FormMethod.Post, new { role = "form" }))
-    {
-        @Html.ValidationSummary(true)
-        <div class="form-group">
-            @if (ViewBag.Result != null)
-            {
-                <div style="color:red">@ViewBag.Result</div>
-            }
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(a => a.Email)
-            @Html.TextBoxFor(a => a.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(a => a.Email, "", new { @class = "text-danger" })
-        </div>
+    </div>
+    <!-- /.container -->
+
+    <div class="container">
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
 
 
-        <input type="submit" value="Close" class="btn-default" />
-    }
-</div>
-<p>@Html.ActionLink("Back to List", "Index")</p>
-@section Scripts{
-    @Scripts.Render("~/bundles/jqueryval")
-}
 
+
+</body>
+</html>
