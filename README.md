@@ -73,3 +73,25 @@ int main()
 }
 
 
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <time.h>
+
+int main()
+{
+    std::vector<int> intVec;
+
+    srand (time(NULL));
+   // int _number = rand() % 20 + 1;
+
+    for (std::vector<int>::size_type i = 0; i <= rand() % 20 + 1; intVec.push_back (rand() % 100 + 1), ++i);
+
+    sort(intVec.begin(), intVec.end());
+
+    //std::cout << "intVec stores " << int(intVec.size()) << " numbers.\n";
+
+    for (std::vector<int>::size_type i = 0; i != intVec.size(); std::cout << "intVec[" << i + 1 << "]=" << intVec[i] << " " << std::endl, ++i);
+
+    return 0;
+}
